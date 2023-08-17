@@ -33,7 +33,7 @@ class BookCategory implements HasUniquenessHash
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\ManyToMany(targetEntity: Book::class, cascade: ["persist"], mappedBy: 'categories')]
+    #[ORM\ManyToMany(targetEntity: Book::class, cascade: ['persist'], mappedBy: 'categories')]
     private Collection $books;
 
     public function __construct()

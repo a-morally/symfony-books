@@ -53,10 +53,10 @@ class Book implements HasUniquenessHash
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToMany(targetEntity: BookCategory::class, cascade: ["persist"], inversedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: BookCategory::class, cascade: ['persist'], inversedBy: 'books')]
     private Collection $categories;
 
-    #[ORM\ManyToMany(targetEntity: BookAuthor::class, cascade: ["persist"], mappedBy: 'books')]
+    #[ORM\ManyToMany(targetEntity: BookAuthor::class, cascade: ['persist'], mappedBy: 'books')]
     private Collection $authors;
 
     public function __construct()

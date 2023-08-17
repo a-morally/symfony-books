@@ -29,7 +29,7 @@ class BookAuthor implements HasUniquenessHash
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\ManyToMany(targetEntity: Book::class, cascade: ["persist"], inversedBy: 'authors')]
+    #[ORM\ManyToMany(targetEntity: Book::class, cascade: ['persist'], inversedBy: 'authors')]
     private Collection $books;
 
     public function __construct()
