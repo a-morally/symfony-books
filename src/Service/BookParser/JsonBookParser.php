@@ -6,6 +6,7 @@ use App\Entity\Book;
 use DateTimeImmutable;
 use App\Entity\BookAuthor;
 use App\Entity\BookCategory;
+use Symfony\Component\HttpFoundation\File\File;
 use App\Service\BookParser\Exception\ParsingException;
 
 /**
@@ -16,13 +17,13 @@ class JsonBookParser extends AbstractParser implements ParserInterface
     /**
      * @throws ParsingException
      */
-    public function parse(string $filepath): ParserResult
+    public function parse(File $file): ParserResult
     {
         $result = new ParserResult();
 
         // TODO find a way to iteratively decode json
         // since file may be too big to fit in memory
-        $content = file_get_contents($filepath);
+        $content = $file->getContent();
         $entries = json_decode($content);
 
         if ($entries === null) {

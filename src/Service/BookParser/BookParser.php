@@ -5,6 +5,7 @@ namespace App\Service\BookParser;
 use App\Entity\Book;
 use App\Entity\BookAuthor;
 use App\Entity\BookCategory;
+use Symfony\Component\HttpFoundation\File\File;
 use App\Service\BookParser\Exception\ParsingException;
 use App\Service\BookParser\Exception\FileNotFoundException;
 use App\Service\BookParser\Exception\UnsupportedFileTypeException;
@@ -22,16 +23,9 @@ class BookParser implements ParserInterface
      * @throws UnsupportedFileTypeException
      * @throws ParsingException
      */
-    public function parse(string $filepath): ParserResult
+    public function parse(File $file): ParserResult
     {
-        $filepath = realpath($filepath);
-
-        if (!file_exists($filepath)) {
-            throw new FileNotFoundException();
-        }
-
-        $info = pathinfo($filepath);
-        $extension = $info['extension'] ?? null;
+        $extension = $file->getExtension();
 
         if (!$extension || !in_array($extension, self::SUPPORTED_EXTENSIONS)) {
             throw new UnsupportedFileTypeException();
@@ -39,7 +33,7 @@ class BookParser implements ParserInterface
 
         try {
             $result = match ($extension) {
-                'json' => $this->jsonParser->parse($filepath),
+                'json' => $this->jsonParser->parse($file),
             };
         } catch (ParsingException $e) {
             throw $e;
@@ -53,8 +47,12 @@ class BookParser implements ParserInterface
      * @param BookAuthor[] $dupeAuthors
      * @param BookCategory[] $dupeCategories
      */
-    public function dedupe(ParserResult $result, array $dupeBooks, array $dupeAuthors, array $dupeCategories): ParserResult
-    {
+    public function dedupe(
+        ParserResult $result,
+        array $dupeBooks,
+        array $dupeAuthors,
+        array $dupeCategories
+    ): ParserResult {
         foreach ($dupeBooks as $book) {
             $hash = $book->getUniquenessHash();
             if (!$hash) {

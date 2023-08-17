@@ -9,12 +9,14 @@ use App\Repository\BookAuthorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\BookCategoryRepository;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\BookParser\Exception\BookParserException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 #[AsCommand(name: 'app:books:load', description: 'Loads and parses books from file and stores them into database')]
 class ParseBooksCommand extends Command
@@ -40,14 +42,22 @@ class ParseBooksCommand extends Command
 
         $filepath = (string) $input->getArgument('filepath');
 
+        try {
+            $file = new File($filepath);
+        } catch (FileNotFoundException $e) {
+            $io->error($this->formatException($e));
+            return Command::FAILURE;
+        }
+
         $io->section('Parsing books');
 
         try {
-            $result = $this->parser->parse($filepath);
+            $result = $this->parser->parse($file);
         } catch (BookParserException $e) {
             $io->error($this->formatException($e));
             return Command::FAILURE;
         }
+
         $parsedAmount = count($result->getBooks());
         $failedAmount = count($result->getFailed());
 
