@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\Index(fields: ['uniquenessHash'])]
-#[ORM\Index(fields: ['status'])]
+#[ORM\Index(fields: ['publishmentStatus'])]
 #[ORM\HasLifecycleCallbacks]
 class Book implements HasUniquenessHash
 {
@@ -23,6 +23,9 @@ class Book implements HasUniquenessHash
     #[ORM\Column(length: 32)]
     private ?string $uniquenessHash = null;
 
+    #[ORM\Column(length: 32)]
+    private ?string $isbn = null;
+
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -32,17 +35,17 @@ class Book implements HasUniquenessHash
     #[ORM\Column(type: 'text')]
     private ?string $longDescription = null;
 
-    #[ORM\Column(length: 32)]
-    private ?string $isbn = null;
-
     #[ORM\Column]
     private ?int $pageCount = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $thumbnailFilename = null;
 
     #[ORM\Column(length: 255)]
     private ?string $thumbnailUrl = null;
 
     #[ORM\Column(length: 32)]
-    private ?string $status = null;
+    private ?string $publishmentStatus = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $publishedAt = null;
@@ -81,6 +84,23 @@ class Book implements HasUniquenessHash
         return $this;
     }
 
+    public function getIsbn(): ?string
+    {
+        return $this->isbn;
+    }
+
+    public function setIsbn(string $isbn): static
+    {
+        $current = $this->isbn;
+        $this->isbn = $isbn;
+
+        if ($current !== $isbn) {
+            $this->updateUniquenessHash();
+        }
+
+        return $this;
+    }
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -116,23 +136,6 @@ class Book implements HasUniquenessHash
         return $this;
     }
 
-    public function getIsbn(): ?string
-    {
-        return $this->isbn;
-    }
-
-    public function setIsbn(string $isbn): static
-    {
-        $current = $this->isbn;
-        $this->isbn = $isbn;
-
-        if ($current !== $isbn) {
-            $this->updateUniquenessHash();
-        }
-
-        return $this;
-    }
-
     public function getPageCount(): ?int
     {
         return $this->pageCount;
@@ -141,6 +144,18 @@ class Book implements HasUniquenessHash
     public function setPageCount(int $pageCount): static
     {
         $this->pageCount = $pageCount;
+
+        return $this;
+    }
+
+    public function getThumbnailFilename(): ?string
+    {
+        return $this->thumbnailFilename;
+    }
+
+    public function setThumbnailFilename(string $thumbnailFilename): static
+    {
+        $this->thumbnailFilename = $thumbnailFilename;
 
         return $this;
     }
@@ -157,14 +172,14 @@ class Book implements HasUniquenessHash
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getPublishmentStatus(): ?string
     {
-        return $this->status;
+        return $this->publishmentStatus;
     }
 
-    public function setStatus(string $status): static
+    public function setPublishmentStatus(string $publishmentStatus): static
     {
-        $this->status = $status;
+        $this->publishmentStatus = $publishmentStatus;
 
         return $this;
     }

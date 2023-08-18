@@ -59,14 +59,14 @@ class JsonBookParser extends AbstractParser implements ParserInterface
         $thumbUrl = trim((string) ($entry->thumbnailUrl ?? ''));
         $descShort = trim((string) ($entry->shortDescription ?? ''));
         $descLong = trim((string) ($entry->longDescription ?? ''));
-        $status = strtolower(trim((string) ($entry->status ?? '')));
+        $pubStatus = strtolower(trim((string) ($entry->status ?? '')));
 
         if ($pubDate) {
             $pubDate = new DateTimeImmutable($pubDate);
             $pubDate = $pubDate === false ? null : $pubDate;
         }
 
-        if (!$isbn || !$title || !in_array($status, Book::STATUSES)) {
+        if (!$isbn || !$title || !in_array($pubStatus, Book::STATUSES)) {
             return null;
         }
 
@@ -75,9 +75,10 @@ class JsonBookParser extends AbstractParser implements ParserInterface
         $book->setIsbn($isbn);
         $book->setPageCount($pageCount);
         $book->setThumbnailUrl($thumbUrl);
+        $book->setThumbnailFilename("");
         $book->setShortDescription($descShort);
         $book->setLongDescription($descLong);
-        $book->setStatus($status);
+        $book->setPublishmentStatus($pubStatus);
 
         if (isset($pubDate)) {
             $book->setPublishedAt($pubDate);
