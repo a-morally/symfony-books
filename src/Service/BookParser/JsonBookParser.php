@@ -53,12 +53,12 @@ class JsonBookParser extends AbstractParser implements ParserInterface
     private function parseBook(object $entry): ?Book
     {
         $title = trim((string) ($entry->title ?? ''));
-        $isbn = (string) ($entry->isbn ?? '');
+        $isbn = trim((string) ($entry->isbn ?? ''));
         $pageCount = (int) ($entry->pageCount ?? 0);
         $pubDate = $entry->publishedDate->{'$date'} ?? null;
-        $thumbUrl = (string) ($entry->thumbnailUrl ?? '');
-        $descShort = (string) ($entry->shortDescription ?? '');
-        $descLong = (string) ($entry->longDescription ?? '');
+        $thumbUrl = trim((string) ($entry->thumbnailUrl ?? ''));
+        $descShort = trim((string) ($entry->shortDescription ?? ''));
+        $descLong = trim((string) ($entry->longDescription ?? ''));
         $status = strtolower(trim((string) ($entry->status ?? '')));
 
         if ($pubDate) {
