@@ -1,0 +1,23 @@
+{% if pagesAmount > 1 %}
+    <div class='pagination'>
+        {% if page > 0 %}
+            <a href={{ path(path, params|merge({ page: page - 1 } )) }}>Previous</a>
+        {% else %}
+            <div class='spacer'></div>
+        {% endif %}
+
+        <select onchange='location.href = this.value'>
+            {% for i in 0..pagesAmount - 1 %}
+                <option value="{{ path(path, params|merge({ page: i })) }}" {{ page == i ? 'selected' : '' }}>
+                    {{ i + 1 }}
+                </option>
+            {% endfor %}
+        </select>
+
+        {% if page < pagesAmount - 1 %}
+            <a href={{ path(path, params|merge({ page: page + 1 } )) }}>Next</a>
+        {% else %}
+            <div class='spacer'></div>
+        {% endif %}
+    </div>
+{% endif %}

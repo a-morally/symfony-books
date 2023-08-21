@@ -1,0 +1,91 @@
+{% set images = [
+    'book_blue.png',
+    'book_green.png',
+    'book_orange.png',
+    'book_red.png',
+] %}
+
+{% set publishmentStatuses = {
+    'publish': 'Published',
+    'meap': 'MEAP'
+} %}
+
+{% extends 'app.html.twig' %}
+
+{% block title %}
+    {{ category.getTitle }}
+    | Library
+{% endblock %}
+
+{% block content %}
+    {{ include("components/breadcrumbs.html.twig", {
+        items: [
+            { text: "Categories", href: path('categories') },
+            { text: category.getTitle }
+        ]
+    }) }}
+
+    <h1>Search</h1>
+    <form class='inline-form' action="{{ path('categories_show', {id: app.request.get('id')}) }}" method='GET'>
+        <input type='hidden' name='page' value='0'/>
+
+        <div class='input-wr'>
+            <label for='form-title'>Book title</label>
+            <input id='form-title' type='text' name='title' value="{{ app.request.get('title', null) }}"/>
+        </div>
+
+        <div class='input-wr'>
+            <label for='form-title'>Author name</label>
+            <input type='text' name='authorName' value="{{ app.request.get('authorName', null) }}"/>
+        </div>
+
+        <div class='input-wr'>
+            <label for='form-title'>Status</label>
+            <select name='publishmentStatus' value="{{ app.request.get('publishmentStatus', null) }}">
+                <option value=''>All</option>
+                {% for key, value in publishmentStatuses  %}
+                    <option value="{{ key }}" {{ app.request.get('publishmentStatus') == key ? 'selected' : '' }}>{{ value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button>Search</button>
+    </form>
+
+    {% if books|length == 0 %}
+        {{ include("components/text_banner.html.twig", {
+            text: "No results found"
+        }) }}
+    {% else %}
+        <div class='cards-wr'>
+            {% for book in books %}
+                {% set items = [book.getAuthors|map(a => a.getName)|join(', ')] %}
+
+                {% if book.getPublishedAt %}
+                    {% set items = items|merge([book.getPublishedAt.getTimestamp|date('Y')]) %}
+                {% endif %}
+
+                {% if publishmentStatuses[book.getPublishmentStatus] %}
+                    {% set items = items|merge([publishmentStatuses[book.getPublishmentStatus]]) %}
+                {% endif %}
+
+                {{ include("components/card.html.twig", {
+                    image: book.getThumbnailFilename ? asset("/uploads/" ~ book.getThumbnailFilename) : asset("/images/") ~ random(images),
+                    href: path('books_show', {id: book.getId}),
+                    title: book.getTitle,
+                    text: book.getShortDescription ?: 'No description provided',
+                    items: items
+                }) }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class='pagination-wr'>
+        {{ include("components/pagination.html.twig", {
+            path: 'categories_show',
+            page: app.request.get('page', 0),
+            pagesAmount: pagesAmount,
+            params: app.request.query|merge({id: app.request.get('id')})
+        }) }}
+    </div>
+{% endblock %}

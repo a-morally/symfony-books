@@ -1,0 +1,97 @@
+.book {
+    display: flex;
+    flex-flow: row;
+}
+
+.book .img {
+    width: 200px;
+    height: 250px;
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.book .text {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 0 10px 10px;
+    flex-grow: 1;
+}
+
+.book .text ul {
+    display: flex;
+    flex-flow: row nowrap;
+    list-style: none;
+}
+
+.book .text .header {
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 0 5px 0;
+    border-bottom: 1px solid #333;
+}
+
+.book .text .header h2 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.book .text .header i {
+    font-size: 14px;
+    color: #666;
+}
+
+.book .text .header li:first-child {
+    text-align: left;
+}
+
+.book .text .header li:last-child {
+    text-align: right;
+}
+
+.book .text nav {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 5px 0 0;
+}
+
+.book .text .subheader {
+    align-items: center;
+    margin: 5px 0 0;
+}
+
+.book .text .subheader li,
+.book .text nav a {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-right: 5px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.book .text .subheader li:not(:last-child)::after,
+.book .text nav a:not(:last-child)::after {
+    display: block;
+    content: '·';
+    margin-left: 5px;
+    font-weight: 800;
+}
+
+.book .text h3 {
+    margin: 2px 0 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+}
+
+.book .text p {
+    margin: 10px 0 0 0;
+    padding: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.1em;
+    flex-grow: 1;
+}

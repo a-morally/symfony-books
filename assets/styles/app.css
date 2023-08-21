@@ -1,0 +1,76 @@
+@import url('./normalize.css');
+
+@import url('./components/header.css');
+@import url('./components/main.css');
+@import url('./components/card.css');
+@import url('./components/pagination.css');
+@import url('./components/text_banner.css');
+@import url('./components/breadcrumbs.css');
+@import url('./components/book.css');
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/open_sans.ttf');
+    font-weight: 300 800;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+body {
+    font-family: 'Open Sans';
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    background-color: #efefef;
+}
+
+a {
+    color: #5e94d3;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+input {
+    display: block;
+    height: 30px;
+    padding: 0 10px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+select {
+    height: 30px;
+    padding: 0 0 0 10px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 30px;
+}
+
+button {
+    height: 30px;
+    padding: 0 20px;
+    background-color: #5e94d3;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #73a4db;
+}

@@ -1,0 +1,104 @@
+{% set images = [
+    'book_blue.png',
+    'book_green.png',
+    'book_orange.png',
+    'book_red.png',
+] %}
+
+{% set publishmentStatuses = {
+    'publish': 'Published',
+    'meap': 'MEAP'
+} %}
+
+{% extends 'app.html.twig' %}
+
+{% block title %}
+    {{ book.getTitle }}
+    | Library
+{% endblock %}
+
+{% block content %}
+    <div class='breadcrumbs-wr'>
+        {{ include("components/breadcrumbs.html.twig", {
+            items: [
+                { text: "Books", href: path('home') },
+                { text: book.getTitle }
+            ]
+        }) }}
+    </div>
+
+    <div class='book-wr'>
+        <div class='book'>
+            <div class='img' style='background-image: url({{ book.getThumbnailFilename ? asset("/uploads/" ~ book.getThumbnailFilename) : asset("/images/") ~ random(images) }})'></div>
+
+            <div class='text'>
+                <ul class='header'>
+                    <li>
+                        <h2>{{ book.getTitle }}</h2>
+                    </li>
+                    <li>
+                        <i>{{ book.getAuthors|map(a => a.getName)|join(', ') }}</i>
+                    </li>
+                </ul>
+
+                <ul class='subheader'>
+                    {% if book.getIsbn %}
+                        <li>
+                            #{{ book.getIsbn }}
+                        </li>
+                    {% endif %}
+                    {% if book.getPageCount %}
+                        <li>
+                            {{ book.getPageCount }}
+                            pages
+                        </li>
+                    {% endif %}
+                    {% if publishmentStatuses[book.getPublishmentStatus] %}
+                        <li>
+                            {{ publishmentStatuses[book.getPublishmentStatus] }}
+                        </li>
+                    {% endif %}
+                    {% if book.getPublishedAt %}
+                        <li>
+                            {{ book.getPublishedAt.getTimestamp|date('Y') }}
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <p>{{ book.getLongDescription|nl2br }}</p>
+
+                <nav>
+                    {% for category in book.getCategories %}
+                        <a href="{{ path('categories_show', { id: category.getId }) }}">{{ category.getTitle }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    {% if relatedBooks|length > 0 %}
+        <h2 class='subheader'>Related books<h2>
+
+                <div class='cards-wr'>
+                    {% for book in relatedBooks %}
+                        {% set items = [book.getAuthors|map(a => a.getName)|join(', ')] %}
+
+                        {% if book.getPublishedAt %}
+                            {% set items = items|merge([book.getPublishedAt.getTimestamp|date('Y')]) %}
+                        {% endif %}
+
+                        {% if publishmentStatuses[book.getPublishmentStatus] %}
+                            {% set items = items|merge([publishmentStatuses[book.getPublishmentStatus]]) %}
+                        {% endif %}
+
+                        {{ include("components/card.html.twig", {
+                            image: book.getThumbnailFilename ? asset("/uploads/" ~ book.getThumbnailFilename) : asset("/images/") ~ random(images),
+                            href: path('books_show', {id: book.getId}),
+                            title: book.getTitle,
+                            text: book.getShortDescription ?: 'No description provided',
+                            items: items
+                        }) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endblock %}

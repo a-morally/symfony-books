@@ -1,0 +1,13 @@
+<nav class='breadcrumbs'>
+    <ul>
+        {% for item in items %}
+            <li>
+                {% if 'href' in item|keys  %}
+                    <a href='{{ item.href }}'>{{ item.text }}</a>
+                {% else %}
+                    {{ item.text }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

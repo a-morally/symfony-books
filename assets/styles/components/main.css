@@ -1,0 +1,60 @@
+main {
+    display: flex;
+    flex-flow: column nowrap;
+    max-width: 1280px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 70px 20px 20px 20px;
+    background-color: #fff;
+}
+
+main .subheader {
+    margin: 20px 0 10px;
+    font-size: 20px;
+}
+
+main .breadcrumbs-wr {
+    margin-bottom: 20px;
+}
+
+main .pagination-wr {
+    display: flex;
+    width: 100%;
+    margin: 20px 0 0;
+    justify-content: center;
+}
+
+main .cards-wr {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+main .list-wr ul {
+    list-style: none;
+}
+
+main .list-wr li {
+    margin-bottom: 10px;
+}
+
+main .inline-form {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+main .inline-form .input-wr {
+    display: block;
+    margin-right: 10px;
+}
+
+main .inline-form .input-wr label {
+    display: block;
+    color: #666;
+}
+
+main .book-wr {
+    width: 100%;
+}

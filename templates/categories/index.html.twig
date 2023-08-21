@@ -1,0 +1,25 @@
+{% extends 'app.html.twig' %}
+
+{% block title %}
+    Categories | Library
+{% endblock %}
+
+{% block content %}
+    <div class='breadcrumbs-wr'>
+        {{ include("components/breadcrumbs.html.twig", {
+            items: [
+                { text: "Categories" }
+            ]
+        }) }}
+    </div>
+
+    <div class='list-wr'>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="{{ path('categories_show', { id: category.getId }) }}">{{ category.getTitle }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

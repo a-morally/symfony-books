@@ -13,11 +13,20 @@ class BookCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, BookCategory::class);
     }
 
+    /**
+     * @return BookCategory[]
+     */
+    public function findAll(): array {
+        $qb = $this->createQueryBuilder('t');
+        $qb->orderBy("t.title", 'asc');
+        return $qb->getQuery()->getResult();
+    }
+
     public function findDefault(): BookCategory
     {
         $category = $this->findBy(['isDefault' => true])[0] ?? null;
 
-        // Create default category if non-existent
+        // Create default category if none exists
         if (!$category) {
             $em = $this->getEntityManager();
             $category = new BookCategory();

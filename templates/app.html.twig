@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <header>
+        <nav>
+            <h1>
+                <a href="{{ path('home') }}">Library</a>
+            </h1>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+{% endblock %}

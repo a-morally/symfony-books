@@ -1,0 +1,26 @@
+.pagination {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+.pagination select{
+    width: 80px;
+    margin: 0 10px;
+}
+
+.pagination a,
+.pagination .spacer {
+    display: block;
+    width: 80px;
+}
+
+.pagination a:first-child,
+.pagination .spacer:first-child {
+    text-align: right;
+}
+
+.pagination a:last-child,
+.pagination .spacer:last-child {
+    text-align: left;
+}

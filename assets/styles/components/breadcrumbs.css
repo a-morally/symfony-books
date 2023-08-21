@@ -1,0 +1,19 @@
+.breadcrumbs ul {
+    display: flex;
+    flex-flow: row nowrap;
+    list-style: none;
+}
+
+.breadcrumbs li {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-right: 10px;
+    color: #666;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+    display: block;
+    content: '·';
+    margin-left: 10px;
+    font-weight: 800;
+}

@@ -1,0 +1,17 @@
+<li class='card'>
+    <div class='img' style='background-image: url({{ image }})'></div>
+
+    <div class='text'>
+        <h2>
+            <a href="{{ href }}">{{ title }}</a>
+        </h2>
+
+        <p>{{ text }}</p>
+
+        <ul>
+            {% for item in items %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</li>
