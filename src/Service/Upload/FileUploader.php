@@ -65,7 +65,7 @@ class FileUploader
         }
 
         file_put_contents($tempFile, $contents);
-        return $this->upload(new File($tempFile));
+        return $this->upload(new File($tempFile), false);
     }
 
     public function getTargetDirectory(): string
