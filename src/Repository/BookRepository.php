@@ -27,32 +27,28 @@ class BookRepository extends ServiceEntityRepository
 
         if ($params->getCategory()) {
             $qb->join('t.categories', 'c');
-            $qb->andWhere('c = :category')->setParameter('category', $params->getCategory());
+            $qb->andWhere('c = :category');
+            $qb->setParameter('category', $params->getCategory());
         }
 
         if ($params->getTitle()) {
-            $qb->andWhere('t.title like :title')->setParameter(
-                'title',
-                '%' . addcslashes($params->getTitle(), '%_') . '%'
-            );
+            $qb->andWhere('t.title like :title');
+            $qb->setParameter('title', '%' . addcslashes($params->getTitle(), '%_') . '%');
         }
 
         if ($params->getAuthor()) {
             $qb->join('t.authors', 'a');
-            $qb->andWhere('a = :author')->setParameter('author', $params->getAuthor());
+            $qb->andWhere('a = :author');
+            $qb->setParameter('author', $params->getAuthor());
         } elseif ($params->getAuthorName()) {
             $qb->join('t.authors', 'a');
-            $qb->andWhere('a.name like :authorName')->setParameter(
-                'authorName',
-                '%' . addcslashes($params->getAuthorName(), '%_') . '%'
-            );
+            $qb->andWhere('a.name like :authorName');
+            $qb->setParameter('authorName', '%' . addcslashes($params->getAuthorName(), '%_') . '%');
         }
 
         if ($params->getPublishmentStatus()) {
-            $qb->andWhere('t.publishmentStatus = :publishmentStatus')->setParameter(
-                'publishmentStatus',
-                $params->getPublishmentStatus()
-            );
+            $qb->andWhere('t.publishmentStatus = :publishmentStatus');
+            $qb->setParameter('publishmentStatus', $params->getPublishmentStatus());
         }
 
         return $this->paginate($qb->getQuery(), $page, $this->perPage);
@@ -86,9 +82,7 @@ class BookRepository extends ServiceEntityRepository
         $uniquenessHashes = array_map(fn(Book $entity) => $entity->getUniquenessHash(), $entities);
 
         $qb = $this->createQueryBuilder('t');
-        $qb->select()
-            ->where('t.uniquenessHash in (:hashes)')
-            ->setParameter('hashes', $uniquenessHashes);
+        $qb->where('t.uniquenessHash in (:hashes)')->setParameter('hashes', $uniquenessHashes);
 
         return $qb->getQuery()->getResult();
     }

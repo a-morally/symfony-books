@@ -19,6 +19,7 @@ class BookCategoryRepository extends ServiceEntityRepository
     public function findAll(): array {
         $qb = $this->createQueryBuilder('t');
         $qb->orderBy("t.title", 'asc');
+
         return $qb->getQuery()->getResult();
     }
 
