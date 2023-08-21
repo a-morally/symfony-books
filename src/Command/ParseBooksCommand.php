@@ -76,7 +76,15 @@ class ParseBooksCommand extends Command
         $io->title('Preparing books');
         $io->progressStart(count($books));
 
+        $defaultCategory = $this->categories->findDefault();
+        $defaultCategoryHash = (string) $defaultCategory->getUniquenessHash();
+        $result->setCategory($defaultCategoryHash, $defaultCategory);
+
         foreach ($books as $bookHash => $book) {
+            if (count($result->getBookCategories($bookHash)) === 0) {
+                $result->addBookCategories($bookHash, $defaultCategoryHash);
+            }
+
             $book = $this->setBookAuthors($book, $bookHash, $result);
             $book = $this->setBookCategories($book, $bookHash, $result);
             $this->em->persist($book);
