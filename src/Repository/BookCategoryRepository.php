@@ -8,7 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class BookCategoryRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, private string $defaultTitle)
+    public function __construct(ManagerRegistry $registry, private string $defaultName)
     {
         parent::__construct($registry, BookCategory::class);
     }
@@ -31,7 +31,7 @@ class BookCategoryRepository extends ServiceEntityRepository
         if (!$category) {
             $em = $this->getEntityManager();
             $category = new BookCategory();
-            $category->setTitle($this->defaultTitle);
+            $category->setName($this->defaultName);
             $category->setIsDefault(true);
 
             $em->persist($category);

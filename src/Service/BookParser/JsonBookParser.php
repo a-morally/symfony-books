@@ -75,7 +75,7 @@ class JsonBookParser extends AbstractParser implements ParserInterface
         $book->setIsbn($isbn);
         $book->setPageCount($pageCount);
         $book->setThumbnailUrl($thumbUrl);
-        $book->setThumbnailFilename("");
+        $book->setThumbnailFilename('');
         $book->setShortDescription($descShort);
         $book->setLongDescription($descLong);
         $book->setPublishmentStatus($pubStatus);
@@ -119,22 +119,22 @@ class JsonBookParser extends AbstractParser implements ParserInterface
      */
     private function parseCategories(object $entry): array
     {
-        $titles = (array) $entry->categories ?? [];
+        $names = (array) $entry->categories ?? [];
         $categories = [];
 
-        foreach ($titles as $title) {
-            if (!is_string($title)) {
+        foreach ($names as $name) {
+            if (!is_string($name)) {
                 continue;
             }
 
-            $title = trim($title);
-            $title = $this->normalizeName($title);
-            if (!$title) {
+            $name = trim($name);
+            $name = $this->normalizeName($name);
+            if (!$name) {
                 continue;
             }
 
             $category = new BookCategory();
-            $category->setTitle($title);
+            $category->setName($name);
             $category->setIsDefault(false);
             $categories[] = $category;
         }

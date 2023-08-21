@@ -22,7 +22,7 @@ class BookCategory implements HasUniquenessHash
     private ?string $uniquenessHash = null;
 
     #[ORM\Column(length: 255)]
-    private string $title = '';
+    private string $name = '';
 
     #[ORM\Column]
     private ?bool $isDefault = null;
@@ -55,21 +55,21 @@ class BookCategory implements HasUniquenessHash
 
     private function updateUniquenessHash(): static
     {
-        $this->uniquenessHash = md5((string) $this->getTitle());
+        $this->uniquenessHash = md5((string) $this->getName());
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): static
+    public function setName(string $name): static
     {
-        $current = $this->title;
-        $this->title = $title;
+        $current = $this->name;
+        $this->name = $name;
 
-        if ($current !== $title) {
+        if ($current !== $name) {
             $this->updateUniquenessHash();
         }
 

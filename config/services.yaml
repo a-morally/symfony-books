@@ -7,7 +7,7 @@ parameters:
     app.upload.directory: '%kernel.project_dir%/public/uploads'
 
     app.books.per_page: 20
-    app.books.category.defaultTitle: 'New'
+    app.books.category.defaultName: 'New'
 
 services:
     # default configuration for services in *this* file
@@ -33,7 +33,7 @@ services:
 
     App\Repository\BookCategoryRepository:
         arguments:
-            $defaultTitle: '%app.books.category.defaultTitle%'
+            $defaultName: '%app.books.category.defaultName%'
 
     App\Service\Upload\FileUploader:
         arguments:
