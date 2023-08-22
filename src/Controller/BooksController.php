@@ -6,9 +6,8 @@ use App\Entity\Book;
 use App\Repository\BookRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class BooksController extends AbstractController
+class BooksController extends AppController
 {
     public function __construct(private BookRepository $books)
     {
