@@ -13,7 +13,7 @@
 {% extends 'app.html.twig' %}
 
 {% block title %}
-    {{ category.getTitle }}
+    {{ category.name }}
     | Library
 {% endblock %}
 
@@ -21,7 +21,7 @@
     {{ include("components/breadcrumbs.html.twig", {
         items: [
             { text: "Categories", href: path('categories') },
-            { text: category.getTitle }
+            { text: category.name }
         ]
     }) }}
 
@@ -59,21 +59,21 @@
     {% else %}
         <div class='cards-wr'>
             {% for book in books %}
-                {% set items = [book.getAuthors|map(a => a.getName)|join(', ')] %}
+                {% set items = [book.authors|map(a => a.name)|join(', ')] %}
 
-                {% if book.getPublishedAt %}
-                    {% set items = items|merge([book.getPublishedAt.getTimestamp|date('Y')]) %}
+                {% if book.publishedAt %}
+                    {% set items = items|merge([book.publishedAt.timestamp|date('Y')]) %}
                 {% endif %}
 
-                {% if publishmentStatuses[book.getPublishmentStatus] %}
-                    {% set items = items|merge([publishmentStatuses[book.getPublishmentStatus]]) %}
+                {% if publishmentStatuses[book.publishmentStatus] %}
+                    {% set items = items|merge([publishmentStatuses[book.publishmentStatus]]) %}
                 {% endif %}
 
                 {{ include("components/card.html.twig", {
-                    image: book.getThumbnailFilename ? asset("/uploads/" ~ book.getThumbnailFilename) : asset("/images/") ~ random(images),
-                    href: path('books_show', {id: book.getId}),
-                    title: book.getTitle,
-                    text: book.getShortDescription ?: 'No description provided',
+                    image: book.thumbnailFilename ? asset("/uploads/" ~ book.thumbnailFilename) : asset("/images/") ~ random(images),
+                    href: path('books_show', {id: book.id}),
+                    title: book.title,
+                    text: book.shortDescription ?: 'No description provided',
                     items: items
                 }) }}
             {% endfor %}

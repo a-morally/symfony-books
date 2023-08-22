@@ -13,7 +13,7 @@
 {% extends 'app.html.twig' %}
 
 {% block title %}
-    {{ book.getTitle }}
+    {{ book.title }}
     | Library
 {% endblock %}
 
@@ -22,54 +22,54 @@
         {{ include("components/breadcrumbs.html.twig", {
             items: [
                 { text: "Books", href: path('home') },
-                { text: book.getTitle }
+                { text: book.title }
             ]
         }) }}
     </div>
 
     <div class='book-wr'>
         <div class='book'>
-            <div class='img' style='background-image: url({{ book.getThumbnailFilename ? asset("/uploads/" ~ book.getThumbnailFilename) : asset("/images/") ~ random(images) }})'></div>
+            <div class='img' style='background-image: url({{ book.thumbnailFilename ? asset("/uploads/" ~ book.thumbnailFilename) : asset("/images/") ~ random(images) }})'></div>
 
             <div class='text'>
                 <ul class='header'>
                     <li>
-                        <h2>{{ book.getTitle }}</h2>
+                        <h2>{{ book.title }}</h2>
                     </li>
                     <li>
-                        <i>{{ book.getAuthors|map(a => a.getName)|join(', ') }}</i>
+                        <i>{{ book.authors|map(a => a.name)|join(', ') }}</i>
                     </li>
                 </ul>
 
                 <ul class='subheader'>
-                    {% if book.getIsbn %}
+                    {% if book.isbn %}
                         <li>
-                            #{{ book.getIsbn }}
+                            #{{ book.isbn }}
                         </li>
                     {% endif %}
-                    {% if book.getPageCount %}
+                    {% if book.pageCount %}
                         <li>
-                            {{ book.getPageCount }}
+                            {{ book.pageCount }}
                             pages
                         </li>
                     {% endif %}
-                    {% if publishmentStatuses[book.getPublishmentStatus] %}
+                    {% if publishmentStatuses[book.publishmentStatus] %}
                         <li>
-                            {{ publishmentStatuses[book.getPublishmentStatus] }}
+                            {{ publishmentStatuses[book.publishmentStatus] }}
                         </li>
                     {% endif %}
-                    {% if book.getPublishedAt %}
+                    {% if book.publishedAt %}
                         <li>
-                            {{ book.getPublishedAt.getTimestamp|date('Y') }}
+                            {{ book.publishedAt.timestamp|date('Y') }}
                         </li>
                     {% endif %}
                 </ul>
 
-                <p>{{ book.getLongDescription|nl2br }}</p>
+                <p>{{ book.longDescription|nl2br }}</p>
 
                 <nav>
-                    {% for category in book.getCategories %}
-                        <a href="{{ path('categories_show', { id: category.getId }) }}">{{ category.getTitle }}</a>
+                    {% for category in book.categories %}
+                        <a href="{{ path('categories_show', { id: category.id }) }}">{{ category.name }}</a>
                     {% endfor %}
                 </nav>
             </div>
@@ -81,21 +81,21 @@
 
                 <div class='cards-wr'>
                     {% for book in relatedBooks %}
-                        {% set items = [book.getAuthors|map(a => a.getName)|join(', ')] %}
+                        {% set items = [book.authors|map(a => a.name)|join(', ')] %}
 
-                        {% if book.getPublishedAt %}
-                            {% set items = items|merge([book.getPublishedAt.getTimestamp|date('Y')]) %}
+                        {% if book.publishedAt %}
+                            {% set items = items|merge([book.publishedAt.timestamp|date('Y')]) %}
                         {% endif %}
 
-                        {% if publishmentStatuses[book.getPublishmentStatus] %}
-                            {% set items = items|merge([publishmentStatuses[book.getPublishmentStatus]]) %}
+                        {% if publishmentStatuses[book.publishmentStatus] %}
+                            {% set items = items|merge([publishmentStatuses[book.publishmentStatus]]) %}
                         {% endif %}
 
                         {{ include("components/card.html.twig", {
-                            image: book.getThumbnailFilename ? asset("/uploads/" ~ book.getThumbnailFilename) : asset("/images/") ~ random(images),
-                            href: path('books_show', {id: book.getId}),
-                            title: book.getTitle,
-                            text: book.getShortDescription ?: 'No description provided',
+                            image: book.thumbnailFilename ? asset("/uploads/" ~ book.thumbnailFilename) : asset("/images/") ~ random(images),
+                            href: path('books_show', {id: book.id}),
+                            title: book.title,
+                            text: book.shortDescription ?: 'No description provided',
                             items: items
                         }) }}
                     {% endfor %}
